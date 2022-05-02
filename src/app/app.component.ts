@@ -9,13 +9,19 @@ export class AppComponent  {
   name = 'Angular ' + VERSION.major;
 
   constructor() {
-    const worker = new Worker('src/Worker.js');
-    // Invio messaggio al worker
-    worker.postMessage('ciao');
-    // Mi sottoscrivo ai messaggio del worker
-    worker.onmessage = (message) => {
-      console.log(message)
-    }
 
+    if (typeof Worker !== 'undefined') {
+      console.log('supported')
+      // Create a new
+      const worker = new Worker('services/work.worker.ts', { type: 'module' });
+      worker.onmessage = ({ data }) => {
+        console.log(`page got message: ${data}`);
+      };
+      worker.postMessage('hello');
+    } else {
+      console.log('not supported')
+      // Web Workers are not supported in this environment.
+      // You should add a fallback so that your program still executes correctly.
+    }
   }
 }
