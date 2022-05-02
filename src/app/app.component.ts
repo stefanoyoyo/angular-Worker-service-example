@@ -13,7 +13,7 @@ export class AppComponent  {
     if (typeof Worker !== 'undefined') {
       console.log('supported')
       // Create a new
-      const worker = new Worker('services/work.worker.ts', { type: 'module' });
+      const worker = new Worker('/services/work.worker.ts', { type: 'module' });
       worker.onmessage = ({ data }) => {
         console.log(`page got message: ${data}`);
       };
